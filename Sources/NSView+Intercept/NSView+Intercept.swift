@@ -108,6 +108,20 @@ public extension NSView {
     }
     
     /// Use the provided callback to intercept insertion of `NSView`
+    /// instances whose conditions match the given specifier.
+    /// - Parameters:
+    ///   - views: The specifier against which to match.
+    ///   - callback: The callback which will receive the `NSView` instances.
+    static func intercept<T: NSView>(
+        _ views: ViewSpecifier<T.Type>,
+        using callback: @escaping NSViewInterceptor<T>
+    ) {
+        Self.install(
+            interceptor: callback,
+            withName: "class-enum--\(views.rawValue)");
+    }
+    
+    /// Use the provided callback to intercept insertion of `NSView`
     /// instances of the given `NSView` subclass.
     /// - Parameters:
     ///   - views: The subclass of `NSView` to intercept.
